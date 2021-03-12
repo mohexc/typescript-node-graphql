@@ -1,8 +1,13 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "/distserver.js",
   "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --respawn src/server.ts",
+    "build": "rimraf dist && tsc",
+    "start": "npm run build && node dist/server.js"
+  },
   "dependencies": {
     "@sendgrid/mail": "^7.4.2",
     "@typegoose/typegoose": "^7.6.0",
