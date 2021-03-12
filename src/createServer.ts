@@ -1,14 +1,14 @@
-import {ApolloServer,gql} from 'apollo-server-express'
+import { ApolloServer, gql } from 'apollo-server-express'
 
 const users = [
-    {username: "Jane", email: "jane@test.com", passwrod: "abc"}
+    { id: "123", username: "Jane", email: "jane@test.com", password: "abc" }
 ]
 
 const typeDefs = gql`
     type User{
         id: String!
         username: String!
-        email: Strint!
+        email: String!
         password: String!
     }
 
@@ -21,18 +21,24 @@ const typeDefs = gql`
     }
 `
 interface InputArgs {
-    username: string  
+    username: string
     email: string
     password: string
 }
+
 const resolvers = {
     Query: {
         users: () => users
     },
     Mutation: {
-        createUser: (_: any, args: InputArgs ) => {
-            const {email,password,username} = args
-            const newUser = {id: "345", username, email, password}
+        createUser: (_: any, args: InputArgs) => {
+            const { username, email, password } = args
+            const newUser = {
+                id: "345",
+                username,
+                email,
+                password
+            }
             users.push(newUser)
             return newUser
         }
@@ -40,5 +46,5 @@ const resolvers = {
 }
 
 export default () => {
-    return new ApolloServer({typeDefs, resolvers})
+    return new ApolloServer({ typeDefs, resolvers })
 }
