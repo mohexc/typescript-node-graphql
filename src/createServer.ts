@@ -1,8 +1,5 @@
 import { ApolloServer, gql } from 'apollo-server-express'
-
-const users = [
-    { id: "123", username: "Jane", email: "jane@test.com", password: "abc" }
-]
+import { UserModel } from './entities/User'
 
 const typeDefs = gql`
     type User{
@@ -28,18 +25,17 @@ interface InputArgs {
 
 const resolvers = {
     Query: {
-        users: () => users
+        users: () => UserModel.find()
     },
     Mutation: {
-        createUser: (_: any, args: InputArgs) => {
+        createUser: async (_: any, args: InputArgs) => {
             const { username, email, password } = args
-            const newUser = {
-                id: "345",
+            const newUser = await UserModel.create({
                 username,
                 email,
                 password
-            }
-            users.push(newUser)
+            })
+
             return newUser
         }
     }
